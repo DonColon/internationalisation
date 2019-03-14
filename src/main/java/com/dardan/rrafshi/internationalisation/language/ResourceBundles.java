@@ -7,7 +7,6 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 
-
 public final class ResourceBundles
 {
 	private static final String INDICATOR_MISSING_RESOURCE = "?";
@@ -31,9 +30,9 @@ public final class ResourceBundles
 		return INDICATOR_MISSING_RESOURCE + key;
 	}
 
-	public static File[] searchBundles(final String searchName, final String directory)
+	public static File[] searchBundles(final String directory, final String searchname)
 	{
-		final FileFilter bundleFilter = ResourceBundles.createResourceBundleFilter(searchName);
+		final FileFilter bundleFilter = ResourceBundles.createResourceBundleFilter(searchname);
 
 		final File bundleDirectory = new File(directory);
 
