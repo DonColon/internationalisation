@@ -2,7 +2,9 @@ package com.dardan.rrafshi.internationalisation.language;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public final class ResourceManager
 
 
 	public ResourceManager(final String pathToBundles, final String nameOfBundles, final Locale locale)
-		throws IOException
+		throws IOException, FileNotFoundException
 	{
 		this.availableResourceBundles = new HashMap<>();
 		this.pathToBundles = pathToBundles;
@@ -37,9 +39,10 @@ public final class ResourceManager
 
 
 	private void init()
-		throws IOException
+		throws IOException, FileNotFoundException
+
 	{
-		final File[] propertyFiles = ResourceBundles.searchBundles(this.nameOfBundles, this.pathToBundles);
+		final File[] propertyFiles = this.searchBundles(this.pathToBundles, this.nameOfBundles);
 
 		for(final File propertyFile : propertyFiles) {
 
@@ -51,11 +54,37 @@ public final class ResourceManager
 
 				this.addResourceBundle(locale, resourceBundle);
 
+			} catch (final FileNotFoundException exception) {
+
+				throw new FileNotFoundException("Property file '" + propertyFile.getName() + "' not found in the directory '" + this.pathToBundles + "'");
+
 			} catch (final IOException exception) {
 
 				throw new IOException("Failed to load resource from file '" + propertyFile.getName() + "'", exception);
 			}
 		}
+	}
+
+	private File[] searchBundles(final String directory, final String searchname)
+	{
+		final FileFilter bundleFilter = this.createResourceBundleFilter(searchname);
+
+		final File bundleDirectory = new File(directory);
+
+		if(bundleDirectory.exists()) {
+			return bundleDirectory.listFiles(bundleFilter);
+		} else {
+			return new File[0];
+		}
+	}
+
+	private FileFilter createResourceBundleFilter(final String bundlename)
+	{
+		final FileFilter filter = (pathname) -> {
+			return pathname.getName().startsWith(bundlename)
+				&& pathname.getName().endsWith(".properties");
+		};
+		return filter;
 	}
 
 	public boolean activateLocale(final Locale locale)
@@ -73,9 +102,9 @@ public final class ResourceManager
 		this.availableResourceBundles.put(locale, resourceBundle);
 	}
 
-	public String getString(final String key)
+	public String getMessage(final String key)
 	{
-		return ResourceBundles.getString(this.currentResourceBundle, key);
+		return ResourceBundles.getMessage(this.currentResourceBundle, key);
 	}
 
 	public boolean supportsLocale(final Locale locale)

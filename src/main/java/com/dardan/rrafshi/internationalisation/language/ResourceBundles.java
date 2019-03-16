@@ -1,7 +1,5 @@
 package com.dardan.rrafshi.internationalisation.language;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -16,7 +14,7 @@ public final class ResourceBundles
 	private ResourceBundles() {}
 
 
-	public static String getString(final ResourceBundle bundle, final String key)
+	public static String getMessage(final ResourceBundle bundle, final String key)
 	{
 		if(bundle != null) {
 			try {
@@ -28,28 +26,6 @@ public final class ResourceBundles
 			}
 		}
 		return INDICATOR_MISSING_RESOURCE + key;
-	}
-
-	public static File[] searchBundles(final String directory, final String searchname)
-	{
-		final FileFilter bundleFilter = ResourceBundles.createResourceBundleFilter(searchname);
-
-		final File bundleDirectory = new File(directory);
-
-		if(bundleDirectory.exists()) {
-			return bundleDirectory.listFiles(bundleFilter);
-		} else {
-			return new File[0];
-		}
-	}
-
-	private static FileFilter createResourceBundleFilter(final String bundlename)
-	{
-		final FileFilter filter = (pathname) -> {
-			return pathname.getName().startsWith(bundlename)
-				&& pathname.getName().endsWith(".properties");
-		};
-		return filter;
 	}
 
 	public static Locale createLocaleFromBundleName(final String name)
@@ -66,4 +42,5 @@ public final class ResourceBundles
 			return new Locale(language, country);
 		}
 	}
+
 }
