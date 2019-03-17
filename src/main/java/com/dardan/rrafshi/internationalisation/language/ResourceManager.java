@@ -37,6 +37,12 @@ public final class ResourceManager
 		this.activateLocale(locale);
 	}
 
+	public ResourceManager(final String pathToBundles, final String nameOfBundles)
+		throws IOException, FileNotFoundException
+	{
+		this(pathToBundles, nameOfBundles, Locale.getDefault());
+	}
+
 
 	private void init()
 		throws IOException, FileNotFoundException
@@ -86,6 +92,7 @@ public final class ResourceManager
 		};
 		return filter;
 	}
+
 
 	public boolean activateLocale(final Locale locale)
 	{

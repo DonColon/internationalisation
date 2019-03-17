@@ -4,6 +4,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
@@ -13,11 +14,18 @@ import java.util.Locale;
 public final class TemporalManager
 {
 	private Locale currentLocale;
+	private ZoneId timeZone;
 
+
+	public TemporalManager(final Locale locale, final ZoneId timeZone)
+	{
+		this.activateLocale(locale);
+		this.changeTimeZone(timeZone);
+	}
 
 	public TemporalManager(final Locale locale)
 	{
-		this.activateLocale(locale);
+		this(locale, ZoneId.systemDefault());
 	}
 
 
@@ -31,7 +39,7 @@ public final class TemporalManager
 		throws DateTimeException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedDateTime(dateStyle, timeStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.formatDateTime(dateTime, format);
 	}
 
@@ -45,7 +53,7 @@ public final class TemporalManager
 		throws DateTimeParseException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedDateTime(dateStyle, timeStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.parseDateTime(dateTime, format);
 	}
 
@@ -59,7 +67,7 @@ public final class TemporalManager
 		throws DateTimeException, DateTimeParseException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedDateTime(dateStyle, timeStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.convertDateTime(dateTime, format);
 	}
 
@@ -68,7 +76,7 @@ public final class TemporalManager
 		throws DateTimeException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(dateStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.formatDate(date, format);
 	}
 
@@ -76,7 +84,7 @@ public final class TemporalManager
 		throws DateTimeParseException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(dateStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.parseDate(date, format);
 	}
 
@@ -84,7 +92,7 @@ public final class TemporalManager
 		throws DateTimeException, DateTimeParseException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedDate(dateStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.convertDate(date, format);
 	}
 
@@ -93,7 +101,7 @@ public final class TemporalManager
 		throws DateTimeException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedTime(timeStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.formatTime(time, format);
 	}
 
@@ -101,7 +109,7 @@ public final class TemporalManager
 		throws DateTimeParseException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedTime(timeStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.parseTime(time, format);
 	}
 
@@ -109,7 +117,7 @@ public final class TemporalManager
 		throws DateTimeException, DateTimeParseException
 	{
 		final DateTimeFormatter format = DateTimeFormatter.ofLocalizedTime(timeStyle)
-				.withLocale(this.currentLocale);
+				.withLocale(this.currentLocale).withZone(this.timeZone);
 		return Temporals.convertTime(time, format);
 	}
 
@@ -117,6 +125,11 @@ public final class TemporalManager
 	public void activateLocale(final Locale locale)
 	{
 		this.currentLocale = locale;
+	}
+
+	public void changeTimeZone(final ZoneId timeZone)
+	{
+		this.timeZone = timeZone;
 	}
 
 	public Locale getCurrentLocale()
