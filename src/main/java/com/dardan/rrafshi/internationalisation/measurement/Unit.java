@@ -6,20 +6,20 @@ import java.util.Objects;
 public final class Unit
 {
 	private final UnitCategory category;
-	private final String unitName;
 	private final String unitShort;
+	private final String unitName;
 
 	private BigDecimal factor;
 	private BigDecimal offset;
 	private boolean active;
 
 
-	public Unit(final UnitCategory category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitShort, final String unitName,
 				final BigDecimal factor, final BigDecimal offset, final boolean active)
 	{
 		this.category = category;
-		this.unitName = unitName;
 		this.unitShort = unitShort;
+		this.unitName = unitName;
 		this.factor = factor;
 		this.offset = offset;
 		this.active = active;

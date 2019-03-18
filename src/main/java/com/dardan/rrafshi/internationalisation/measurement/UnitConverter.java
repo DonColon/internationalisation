@@ -43,53 +43,47 @@ public final class UnitConverter
 	private String formatString;
 	private int decimals;
 
-	private UnitDefinition baseUnitDefinition;
 	private final Unit unit;
 
 
-	public UnitConverter(final UnitCategory category, final UnitDefinition baseUnitDefinition, final Locale locale)
-	{
-		this.baseUnitDefinition = baseUnitDefinition;
-		this.unit = BASE_UNITS.get(category).getUnit();
-
-		this.decimals = 3;
-		this.formatString = "%.3f";
-		this.activateLocale(locale);
-	}
-
-	public UnitConverter(final UnitCategory category, final UnitDefinition baseUnitDefinition)
-	{
-		this(category, baseUnitDefinition, Locale.getDefault());
-	}
-
 	public UnitConverter(final UnitCategory category, final Locale locale)
 	{
-		this(category, BASE_UNITS.get(category), locale);
+		this.unit = BASE_UNITS.get(category).getUnit();
+		this.setDecimals(3);
+		this.activateLocale(locale);
 	}
 
 	public UnitConverter(final UnitCategory category)
 	{
-		this(category, BASE_UNITS.get(category));
+		this(category, Locale.getDefault());
 	}
 
 
-    public double convert(final double value, final UnitDefinition unitDefinition) {
-        if (unitDefinition.getUnit().getCategory() != this.getUnitCategory())
+    public double convert(final double value, final UnitDefinition fromUnit, final UnitDefinition toUnit)
+    {
+        if (toUnit.getUnit().getCategory() != this.getUnitCategory())
         	throw new IllegalArgumentException("Unit has to be of type '" + this.getUnitCategory() + "'");
 
-        return (
-			        (
-			        		(
-			        				(
-			        						value + this.baseUnitDefinition.getUnit().getOffset().doubleValue()
-			        				)
-			        				* this.baseUnitDefinition.getUnit().getFactor().doubleValue()
-			        		)
-			        		+ this.unit.getOffset().doubleValue()
-			        )
-			        * this.unit.getFactor().doubleValue()
-        		)
-        		/ unitDefinition.getUnit().getFactor().doubleValue() - unitDefinition.getUnit().getOffset().doubleValue();
+        double convertedValue = value;
+
+        convertedValue += fromUnit.getUnit().getOffset().doubleValue();
+        convertedValue *= fromUnit.getUnit().getFactor().doubleValue();
+
+        convertedValue += this.unit.getOffset().doubleValue();
+        convertedValue *= this.unit.getFactor().doubleValue();
+
+        convertedValue /= toUnit.getUnit().getFactor().doubleValue();
+        convertedValue -= toUnit.getUnit().getOffset().doubleValue();
+
+        return convertedValue;
+    }
+
+    public String convertToString(final double value, final UnitDefinition fromUnit, final UnitDefinition toUnit)
+    {
+    	final double convertedValue = this.convert(value, fromUnit, toUnit);
+    	final String formattedValue = String.format(this.currentLocale, this.formatString, convertedValue);
+
+    	return String.join(" ", formattedValue, toUnit.getUnit().getUnitShort());
     }
 
 
@@ -134,17 +128,6 @@ public final class UnitConverter
 				   .collect(Collectors.toList());
 	}
 
-
-	public UnitDefinition getBaseUnitDefinition()
-	{
-		return this.baseUnitDefinition;
-	}
-
-	public void setBaseUnitDefinition(final UnitDefinition baseUnitDefinition)
-	{
-		if(baseUnitDefinition.getUnit().getCategory() == this.getUnitCategory())
-			this.baseUnitDefinition = baseUnitDefinition;
-	}
 
 	public Locale getCurrentLocale()
 	{

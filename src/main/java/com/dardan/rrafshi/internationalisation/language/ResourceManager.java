@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -107,6 +108,16 @@ public final class ResourceManager
 	public void addResourceBundle(final Locale locale, final ResourceBundle resourceBundle)
 	{
 		this.availableResourceBundles.put(locale, resourceBundle);
+	}
+
+	public String getMessage(final String key, final Collection<Object> values)
+	{
+		return ResourceBundles.getMessage(this.currentResourceBundle, key, values.toArray());
+	}
+
+	public String getMessage(final String key, final Object... values)
+	{
+		return ResourceBundles.getMessage(this.currentResourceBundle, key, values);
 	}
 
 	public String getMessage(final String key)

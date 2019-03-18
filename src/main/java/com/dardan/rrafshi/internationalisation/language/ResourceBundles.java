@@ -1,5 +1,6 @@
 package com.dardan.rrafshi.internationalisation.language;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -13,6 +14,12 @@ public final class ResourceBundles
 
 	private ResourceBundles() {}
 
+
+	public static String getMessage(final ResourceBundle bundle, final String key, final Object[] values)
+	{
+		final MessageFormat messageFormat = new MessageFormat(ResourceBundles.getMessage(bundle, key));
+		return messageFormat.format(values);
+	}
 
 	public static String getMessage(final ResourceBundle bundle, final String key)
 	{
