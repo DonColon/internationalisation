@@ -1,6 +1,7 @@
 package com.dardan.rrafshi.internationalisation.measurement;
 
-public enum UnitCategories {
+public enum UnitCategory
+{
 	ACCELERATION,
 	ANGLE,
 	AREA,

@@ -28,6 +28,11 @@ public final class TemporalManager
 		this(locale, ZoneId.systemDefault());
 	}
 
+	public TemporalManager()
+	{
+		this(Locale.getDefault());
+	}
+
 
 	public String formatDateTime(final LocalDateTime dateTime, final FormatStyle dateTimeStyle)
 		throws DateTimeException

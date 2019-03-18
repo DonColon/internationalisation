@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>internationalisation</name>
-	<description>A module to internationalize applications</description>
+	<description>A utility module for internationalising applications in java</description>
 	<url>https://github.com/DonColon/internationalisation</url>
 
 	<developers>

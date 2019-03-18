@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public final class Unit
 {
-	private final UnitCategories category;
+	private final UnitCategory category;
 	private final String unitName;
 	private final String unitShort;
 
@@ -14,7 +14,7 @@ public final class Unit
 	private boolean active;
 
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitName, final String unitShort,
 				final BigDecimal factor, final BigDecimal offset, final boolean active)
 	{
 		this.category = category;
@@ -25,45 +25,45 @@ public final class Unit
 		this.active = active;
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitName, final String unitShort,
 				final BigDecimal factor, final BigDecimal offset)
 	{
 		this(category, unitName, unitShort, factor, offset, true);
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitName, final String unitShort,
 				final double factor, final double offset, final boolean active)
 	{
 		this(category, unitName, unitShort, new BigDecimal(Double.toString(factor)),
 				new BigDecimal(Double.toString(offset)), active);
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitName, final String unitShort,
 				final double factor, final double offset)
 	{
 		this(category, unitName, unitShort, new BigDecimal(Double.toString(factor)),
 				new BigDecimal(Double.toString(offset)), true);
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitName, final String unitShort,
 				final BigDecimal factor, final boolean active)
 	{
 		this(category, unitName, unitShort, factor, new BigDecimal("0.0"), active);
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort, final BigDecimal factor)
+	public Unit(final UnitCategory category, final String unitName, final String unitShort, final BigDecimal factor)
 	{
 		this(category, unitName, unitShort, factor, new BigDecimal("0.0"), true);
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort,
+	public Unit(final UnitCategory category, final String unitName, final String unitShort,
 				final double factor, final boolean active)
 	{
 		this(category, unitName, unitShort, new BigDecimal(Double.toString(factor)),
 				new BigDecimal("0.0"), active);
 	}
 
-	public Unit(final UnitCategories category, final String unitName, final String unitShort, final double factor)
+	public Unit(final UnitCategory category, final String unitName, final String unitShort, final double factor)
 	{
 		this(category, unitName, unitShort, new BigDecimal(Double.toString(factor)),
 				new BigDecimal("0.0"), true);
@@ -137,7 +137,7 @@ public final class Unit
 		this.active = active;
 	}
 
-	public UnitCategories getCategory()
+	public UnitCategory getCategory()
 	{
 		return this.category;
 	}

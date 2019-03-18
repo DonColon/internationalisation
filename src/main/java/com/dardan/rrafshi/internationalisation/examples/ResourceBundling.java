@@ -9,7 +9,8 @@ import com.dardan.rrafshi.internationalisation.language.ResourceManager;
 public final class ResourceBundling
 {
 
-	public static void main(final String[] args) throws FileNotFoundException, IOException
+	public static void main(final String[] args)
+		throws FileNotFoundException, IOException
 	{
 		final String pathToBundles = "src/main/resources/com/dardan/rrafshi/bundles";
 		final String nameOfBundles = "bundle";
