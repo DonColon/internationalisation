@@ -71,7 +71,8 @@ public final class Unit
 
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return this.category + " " + this.unitName + " (" + this.unitShort + ") " + this.factor + ", " + this.offset;
 	}
 

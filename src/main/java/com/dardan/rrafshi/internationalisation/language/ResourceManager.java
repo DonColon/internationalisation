@@ -16,7 +16,16 @@ import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-
+/**
+ * <h1>ResourceManager</h1>
+ * A class for managing resource bundles. It detects resource bundles in the
+ * specified path and loads the content. It allows you to easily switch between
+ * bundles according to the selected locale object.
+ *
+ * @author Dardan Rrafshi
+ * @version 0.0.1
+ * @since 2019-03-20
+ */
 public final class ResourceManager
 {
 	private final Map<Locale, ResourceBundle> availableResourceBundles;

@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public final class UnitConverter
 {
 	private static final Map<UnitCategory, UnitDefinition> BASE_UNITS = new EnumMap<>(UnitCategory.class);
+
 	{
 		BASE_UNITS.put(UnitCategory.ACCELERATION, UnitDefinition.METER_PER_SQUARE_SECOND);
 		BASE_UNITS.put(UnitCategory.ANGLE, UnitDefinition.RADIAN);
@@ -36,6 +37,7 @@ public final class UnitConverter
 		BASE_UNITS.put(UnitCategory.VOLTAGE, UnitDefinition.VOLT);
 		BASE_UNITS.put(UnitCategory.WORK, UnitDefinition.WATT);
 	}
+
 	private static final int MAXIMUM_NUMBER_OF_DECIMALS = 12;
 
 
