@@ -10,8 +10,10 @@ import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
+import com.dardan.rrafshi.internationalisation.Localisable;
 
-public final class TemporalManager
+
+public final class TemporalManager implements Localisable
 {
 	private Locale currentLocale;
 	private ZoneId timeZone;
@@ -127,9 +129,20 @@ public final class TemporalManager
 	}
 
 
-	public void activateLocale(final Locale locale)
+	@Override
+	public boolean activateLocale(final Locale locale)
 	{
-		this.currentLocale = locale;
+		if(locale != null) {
+			this.currentLocale = locale;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Locale currentLocale()
+	{
+		return this.currentLocale;
 	}
 
 	public void changeTimeZone(final ZoneId timeZone)
@@ -137,9 +150,9 @@ public final class TemporalManager
 		this.timeZone = timeZone;
 	}
 
-	public Locale getCurrentLocale()
+	public ZoneId currentTimeZone()
 	{
-		return this.currentLocale;
+		return this.timeZone;
 	}
 
 }

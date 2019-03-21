@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import com.dardan.rrafshi.internationalisation.Localisable;
+
 /**
  * <h1>ResourceManager</h1>
  * A class for managing resource bundles. It detects resource bundles in the
@@ -26,7 +28,7 @@ import java.util.ResourceBundle;
  * @version 0.0.1
  * @since 2019-03-20
  */
-public final class ResourceManager
+public final class ResourceManager implements Localisable
 {
 	private final Map<Locale, ResourceBundle> availableResourceBundles;
 	private final String pathToBundles;
@@ -104,21 +106,6 @@ public final class ResourceManager
 	}
 
 
-	public boolean activateLocale(final Locale locale)
-	{
-		if(this.supportsLocale(locale)) {
-			this.currentResourceBundle = this.availableResourceBundles.get(locale);
-			this.currentLocale = locale;
-			return true;
-		}
-		return false;
-	}
-
-	public void addResourceBundle(final Locale locale, final ResourceBundle resourceBundle)
-	{
-		this.availableResourceBundles.put(locale, resourceBundle);
-	}
-
 	public String getMessage(final String key, final Collection<Object> values)
 	{
 		return ResourceBundles.getMessage(this.currentResourceBundle, key, values.toArray());
@@ -134,14 +121,31 @@ public final class ResourceManager
 		return ResourceBundles.getMessage(this.currentResourceBundle, key);
 	}
 
+	@Override
+	public boolean activateLocale(final Locale locale)
+	{
+		if(this.supportsLocale(locale)) {
+			this.currentResourceBundle = this.availableResourceBundles.get(locale);
+			this.currentLocale = locale;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Locale currentLocale()
+	{
+		return this.currentLocale;
+	}
+
+	public void addResourceBundle(final Locale locale, final ResourceBundle resourceBundle)
+	{
+		this.availableResourceBundles.put(locale, resourceBundle);
+	}
+
 	public boolean supportsLocale(final Locale locale)
 	{
 		return this.availableResourceBundles.containsKey(locale);
-	}
-
-	public Locale getCurrentLocale()
-	{
-		return this.currentLocale;
 	}
 
 	public List<Locale> getAvailableLocales()

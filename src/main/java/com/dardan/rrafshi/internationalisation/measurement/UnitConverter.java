@@ -9,7 +9,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public final class UnitConverter
+import com.dardan.rrafshi.internationalisation.DigitFormatter;
+import com.dardan.rrafshi.internationalisation.Localisable;
+
+public final class UnitConverter implements Localisable
 {
 	private static final Map<UnitCategory, UnitDefinition> BASE_UNITS = new EnumMap<>(UnitCategory.class);
 
@@ -38,20 +41,16 @@ public final class UnitConverter
 		BASE_UNITS.put(UnitCategory.WORK, UnitDefinition.WATT);
 	}
 
-	private static final int MAXIMUM_NUMBER_OF_DECIMALS = 12;
 
-
+	private final DigitFormatter formatter;
 	private Locale currentLocale;
-	private String formatString;
-	private int decimals;
-
 	private final Unit unit;
 
 
 	public UnitConverter(final UnitCategory category, final Locale locale)
 	{
+		this.formatter = new DigitFormatter(locale);
 		this.unit = BASE_UNITS.get(category).getUnit();
-		this.setDecimals(3);
 		this.activateLocale(locale);
 	}
 
@@ -83,11 +82,10 @@ public final class UnitConverter
     public String convertToString(final double value, final UnitDefinition fromUnit, final UnitDefinition toUnit)
     {
     	final double convertedValue = this.convert(value, fromUnit, toUnit);
-    	final String formattedValue = String.format(this.currentLocale, this.formatString, convertedValue);
+    	final String formattedValue = this.formatter.format(convertedValue);
 
     	return String.join(" ", formattedValue, toUnit.getUnit().getUnitShort());
     }
-
 
 	public Map<UnitCategory, List<UnitDefinition>> getAllUnitDefinitions()
 	{
@@ -130,37 +128,31 @@ public final class UnitConverter
 				   .collect(Collectors.toList());
 	}
 
+	@Override
+	public boolean activateLocale(final Locale locale)
+	{
+		if(locale != null) {
+			this.currentLocale = locale;
+			this.formatter.activateLocale(locale);
+			return true;
+		}
+		return false;
+	}
 
-	public Locale getCurrentLocale()
+	@Override
+	public Locale currentLocale()
 	{
 		return this.currentLocale;
 	}
 
-	public void activateLocale(final Locale locale)
+	public void setDecimals(final int decimals)
 	{
-		this.currentLocale = locale;
+		this.formatter.setDecimals(decimals);
 	}
 
 	public int getDecimals()
 	{
-		return this.decimals;
-	}
-
-	public void setDecimals(final int decimals)
-	{
-		if(decimals > MAXIMUM_NUMBER_OF_DECIMALS)
-			this.decimals = MAXIMUM_NUMBER_OF_DECIMALS;
-		else if(decimals < 0)
-			this.decimals = 0;
-		else
-			this.decimals = decimals;
-
-		this.formatString = "%." + decimals + "f";
-	}
-
-	public String getFormatString()
-	{
-		return this.formatString;
+		return this.formatter.getDecimals();
 	}
 
 
