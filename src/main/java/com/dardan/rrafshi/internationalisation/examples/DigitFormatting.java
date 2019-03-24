@@ -2,7 +2,7 @@ package com.dardan.rrafshi.internationalisation.examples;
 
 import java.util.Locale;
 
-import com.dardan.rrafshi.internationalisation.DigitFormatter;
+import com.dardan.rrafshi.internationalisation.alphanumeric.DigitFormatter;
 
 public class DigitFormatting
 {

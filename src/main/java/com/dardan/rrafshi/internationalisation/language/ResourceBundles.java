@@ -76,11 +76,7 @@ public final class ResourceBundles
 		final String language = bundleName.substring(languageIndex + 1,  languageIndex + 3);
 		final String country = bundleName.substring(countryIndex + 1, countryIndex + 3);
 
-		if(language == null && country == null) {
-			return Locale.getDefault();
-		} else {
-			return new Locale(language, country);
-		}
+		return new Locale(language, country);
 	}
 
 }

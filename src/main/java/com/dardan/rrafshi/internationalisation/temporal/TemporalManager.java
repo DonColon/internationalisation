@@ -13,6 +13,17 @@ import java.util.Locale;
 import com.dardan.rrafshi.internationalisation.Localisable;
 
 
+/**
+ * <h1>TemporalManager</h1>
+ * A class for managing temporal objects like date and time. It can parse strings
+ * into temporal objects, format temporal objects to strings and convert temporals
+ * into localised temporals with a time zone. You can easily change the format by
+ * changing the locale object.
+ *
+ * @author Dardan Rrafshi
+ * @version 0.0.1
+ * @since 2019-03-20
+ */
 public final class TemporalManager implements Localisable
 {
 	private Locale currentLocale;
@@ -36,12 +47,31 @@ public final class TemporalManager implements Localisable
 	}
 
 
+	/**
+	 * Formats a LocalDateTime object into a String with the format of the
+	 * current locale and the specified style.
+	 *
+	 * @param dateTime - the datetime object to format
+	 * @param dateTimeStyle - the format style that should be used
+	 * @return formattedDateTime - the string representation of the datetime object
+	 * @throws DateTimeException - when the datetime object can't be formatted
+	 */
 	public String formatDateTime(final LocalDateTime dateTime, final FormatStyle dateTimeStyle)
 		throws DateTimeException
 	{
 		return this.formatDateTime(dateTime, dateTimeStyle, dateTimeStyle);
 	}
 
+	/**
+	 * Formats a LocalDateTime object into a String with the format of the
+	 * current locale and the specified style for the date and the time.
+	 *
+	 * @param dateTime - the datetime object to format
+	 * @param dateStyle - the style for the date portion
+	 * @param timeStyle - the style for the time portion
+	 * @return formattedDateTime - the string representation of the datetime object
+	 * @throws DateTimeException - when the datetime object can't be formatted
+	 */
 	public String formatDateTime(final LocalDateTime dateTime, final FormatStyle dateStyle, final FormatStyle timeStyle)
 		throws DateTimeException
 	{
@@ -50,12 +80,31 @@ public final class TemporalManager implements Localisable
 		return Temporals.formatDateTime(dateTime, format);
 	}
 
+	/**
+	 * Parses a String into LocalDateTime object with the format of the
+	 * current locale and the specified style.
+	 *
+	 * @param dateTime - the string to parse
+	 * @param dateTimeStyle - the format style that should be used
+	 * @return parsedDateTime - the datetime object parsed from the string
+	 * @throws DateTimeParseException - when the string isn't in the right format
+	 */
 	public LocalDateTime parseDateTime(final String dateTime, final FormatStyle dateTimeStyle)
 		throws DateTimeParseException
 	{
 		return this.parseDateTime(dateTime, dateTimeStyle, dateTimeStyle);
 	}
 
+	/**
+	 * Parses a String into LocalDateTime object with the format of the
+	 * current locale and the specified style for the date and the time.
+	 *
+	 * @param dateTime - the string to parse
+	 * @param dateStyle - the style for the date portion
+	 * @param timeStyle - the style for the time portion
+	 * @return parsedDateTime - the datetime object parsed from the string
+	 * @throws DateTimeParseException - when the string isn't in the right format
+	 */
 	public LocalDateTime parseDateTime(final String dateTime, final FormatStyle dateStyle, final FormatStyle timeStyle)
 		throws DateTimeParseException
 	{
@@ -64,6 +113,16 @@ public final class TemporalManager implements Localisable
 		return Temporals.parseDateTime(dateTime, format);
 	}
 
+	/**
+	 * Converts a LocalDateTime object into a LocalDateTime object with the
+	 * format of the current locale and the specified style.
+	 *
+	 * @param dateTime - the datetime object to convert
+	 * @param dateTimeStyle - the format style that should be used
+	 * @return convertedDateTime - the converted datetime object with the new format
+	 * @throws DateTimeException - when the datetime object can't be formatted
+	 * @throws DateTimeParseException - when the string isn't in the right format
+	 */
 	public LocalDateTime convertDateTime(final LocalDateTime dateTime, final FormatStyle dateTimeStyle)
 		throws DateTimeException, DateTimeParseException
 	{
@@ -79,6 +138,15 @@ public final class TemporalManager implements Localisable
 	}
 
 
+	/**
+	 * Formats a LocalDate object into a String with the format of the
+	 * current locale and the specified style.
+	 *
+	 * @param date - the date object to format
+	 * @param dateStyle - the style for the date
+	 * @return formattedDateTime - the string representation of the date object
+	 * @throws DateTimeException - when the date object can't be formatted
+	 */
 	public String formatDate(final LocalDate date, final FormatStyle dateStyle)
 		throws DateTimeException
 	{
@@ -103,7 +171,15 @@ public final class TemporalManager implements Localisable
 		return Temporals.convertDate(date, format);
 	}
 
-
+	/**
+	 * Formats a LocalTime object into a String with the format of the
+	 * current locale and the specified style.
+	 *
+	 * @param time - the date object to format
+	 * @param timeStyle - the style for the time
+	 * @return formattedDateTime - the string representation of the time object
+	 * @throws DateTimeException - when the time object can't be formatted
+	 */
 	public String formatTime(final LocalTime time, final FormatStyle timeStyle)
 		throws DateTimeException
 	{

@@ -56,6 +56,13 @@ public final class ResourceManager implements Localisable
 	}
 
 
+	/**
+	 * Loads the available resource bundles from specified path with the specified bundlename
+	 * and adds them to the map.
+	 *
+	 * @throws IOException - when the user doesn't have the rights to read the file
+	 * @throws FileNotFoundException - when the file doesn't exist in the specified path
+	 */
 	private void init()
 		throws IOException, FileNotFoundException
 
@@ -83,6 +90,13 @@ public final class ResourceManager implements Localisable
 		}
 	}
 
+	/**
+	 * Searches the specified directory after resource bundles with the specified searchname.
+	 *
+	 * @param directory - the directory to search the resource bundles
+	 * @param searchname - the name of the files to search after
+	 * @return listOfBundles - an array of all files that matches the filter
+	 */
 	private File[] searchBundles(final String directory, final String searchname)
 	{
 		final FileFilter bundleFilter = this.createResourceBundleFilter(searchname);
@@ -96,6 +110,13 @@ public final class ResourceManager implements Localisable
 		}
 	}
 
+	/**
+	 * Creates a file filter that looks for files that starts with the specified bundlename
+	 * and ends with the file type '.properties'.
+	 *
+	 * @param bundlename - the name of the resource bundles
+	 * @return filter - the created file filter
+	 */
 	private FileFilter createResourceBundleFilter(final String bundlename)
 	{
 		final FileFilter filter = (pathname) -> {
@@ -106,21 +127,49 @@ public final class ResourceManager implements Localisable
 	}
 
 
+	/**
+	 * Fetch the message value linked to the key value in a safe way
+	 * and format the template with the given values.
+	 *
+	 * @param key - the key value of the message
+	 * @param values - the values to fill the placeholders as a collection
+	 * @return message - the formated message linked to the key value
+	 */
 	public String getMessage(final String key, final Collection<Object> values)
 	{
 		return ResourceBundles.getMessage(this.currentResourceBundle, key, values.toArray());
 	}
 
+	/**
+	 * Fetch the message value linked to the key value in a safe way
+	 * and format the template with the given values.
+	 *
+	 * @param key - the key value of the message
+	 * @param values - the values to fill the placeholders as varargs
+	 * @return message - the formated message linked to the key value
+	 */
 	public String getMessage(final String key, final Object... values)
 	{
 		return ResourceBundles.getMessage(this.currentResourceBundle, key, values);
 	}
 
+	/**
+	 * Fetch the message value linked to the key value in a safe way.
+	 *
+	 * @param key - the key value of the message
+	 * @return message - the message linked to the key value
+	 */
 	public String getMessage(final String key)
 	{
 		return ResourceBundles.getMessage(this.currentResourceBundle, key);
 	}
 
+	/**
+	 * Sets the current locale and resource bundle of the manager
+	 *
+	 * @param locale - the locale object to activate
+	 * @return activated - indicates if the activation was successful
+	 */
 	@Override
 	public boolean activateLocale(final Locale locale)
 	{
@@ -132,22 +181,44 @@ public final class ResourceManager implements Localisable
 		return false;
 	}
 
+	/**
+	 * Returns the current selected locale object of the manager.
+	 *
+	 * @return locale - the current locale object
+	 */
 	@Override
 	public Locale currentLocale()
 	{
 		return this.currentLocale;
 	}
 
+	/**
+	 * Adds a resource bundle for a specific language on runtime.
+	 *
+	 * @param locale - the locale object to support
+	 * @param resourceBundle - the resource bundle of the locale
+	 */
 	public void addResourceBundle(final Locale locale, final ResourceBundle resourceBundle)
 	{
 		this.availableResourceBundles.put(locale, resourceBundle);
 	}
 
+	/**
+	 * Checks if the locale is supported by the manager.
+	 *
+	 * @param locale - the locale object to check
+	 * @return isSupported - indicates if the locale object is supported
+	 */
 	public boolean supportsLocale(final Locale locale)
 	{
 		return this.availableResourceBundles.containsKey(locale);
 	}
 
+	/**
+	 * Returns the available locale objects of the manager.
+	 *
+	 * @return availableLocales - a list of the available locale objects
+	 */
 	public List<Locale> getAvailableLocales()
 	{
 		return new ArrayList<>(this.availableResourceBundles.keySet());

@@ -2,15 +2,14 @@ package com.dardan.rrafshi.internationalisation.measurement;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.dardan.rrafshi.internationalisation.DigitFormatter;
 import com.dardan.rrafshi.internationalisation.Localisable;
+import com.dardan.rrafshi.internationalisation.alphanumeric.DigitFormatter;
 
 public final class UnitConverter implements Localisable
 {
@@ -90,10 +89,9 @@ public final class UnitConverter implements Localisable
 	public Map<UnitCategory, List<UnitDefinition>> getAllUnitDefinitions()
 	{
 		final Map<UnitCategory, List<UnitDefinition>> allUnitDefnitions = new EnumMap<>(UnitCategory.class);
-		final List<UnitCategory> unitCategories = new ArrayList<>();
 
-		unitCategories.addAll(Arrays.asList(UnitCategory.values()));
-		unitCategories.forEach(category -> allUnitDefnitions.put(category, new ArrayList<>()));
+		for(final UnitCategory unitCategory : UnitCategory.values())
+			allUnitDefnitions.put(unitCategory, new ArrayList<>());
 
 		for(final UnitDefinition unitDefinition : UnitDefinition.values()) {
 			final UnitCategory category = unitDefinition.getUnit().getCategory();
@@ -106,10 +104,9 @@ public final class UnitConverter implements Localisable
 	public Map<UnitCategory, List<UnitDefinition>> getAllActiveUnitDefinitions()
 	{
 		final Map<UnitCategory, List<UnitDefinition>> allActiveUnitDefnitions = new EnumMap<>(UnitCategory.class);
-		final List<UnitCategory> unitCategories = new ArrayList<>();
 
-		unitCategories.addAll(Arrays.asList(UnitCategory.values()));
-		unitCategories.forEach(category -> allActiveUnitDefnitions.put(category, new ArrayList<>()));
+		for(final UnitCategory unitCategory : UnitCategory.values())
+			allActiveUnitDefnitions.put(unitCategory, new ArrayList<>());
 
 		for(final UnitDefinition unitDefinition : UnitDefinition.values()) {
 			final Unit unit = unitDefinition.getUnit();

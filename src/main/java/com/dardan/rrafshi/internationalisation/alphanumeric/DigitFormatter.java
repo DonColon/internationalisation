@@ -1,25 +1,36 @@
-package com.dardan.rrafshi.internationalisation;
+package com.dardan.rrafshi.internationalisation.alphanumeric;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import com.dardan.rrafshi.internationalisation.Localisable;
+
 
 public final class DigitFormatter implements Localisable
 {
+	private NumberFormat numberFormatter;
+	private NumberFormat currencyFormatter;
+	private NumberFormat percentageFormatter;
+
 	private Locale currentLocale;
 	private int decimals;
 
 
 	public DigitFormatter(final int decimals, final Locale locale)
 	{
-		this.setDecimals(decimals);
 		this.activateLocale(locale);
+		this.setDecimals(decimals);
 	}
 
 	public DigitFormatter(final Locale locale)
 	{
 		this(3, locale);
+	}
+
+	public DigitFormatter()
+	{
+		this(Locale.getDefault());
 	}
 
 
@@ -30,10 +41,7 @@ public final class DigitFormatter implements Localisable
 
 	public String format(final double number)
 	{
-		final NumberFormat format = NumberFormat.getNumberInstance(this.currentLocale);
-		format.setMaximumFractionDigits(this.decimals);
-
-		return format.format(number);
+		return this.numberFormatter.format(number);
 	}
 
 	public String formatAsCurrency(final BigDecimal number)
@@ -43,10 +51,7 @@ public final class DigitFormatter implements Localisable
 
 	public String formatAsCurrency(final double number)
 	{
-		final NumberFormat format = NumberFormat.getCurrencyInstance(this.currentLocale);
-		format.setMaximumFractionDigits(this.decimals);
-
-		return format.format(number);
+		return this.currencyFormatter.format(number);
 	}
 
 	public String formatAsPercentage(final BigDecimal number)
@@ -56,10 +61,7 @@ public final class DigitFormatter implements Localisable
 
 	public String formatAsPercentage(final double number)
 	{
-		final NumberFormat format = NumberFormat.getPercentInstance(this.currentLocale);
-		format.setMinimumFractionDigits(this.decimals);
-
-		return format.format(number);
+		return this.percentageFormatter.format(number);
 	}
 
 	@Override
@@ -67,6 +69,11 @@ public final class DigitFormatter implements Localisable
 	{
 		if(locale != null) {
 			this.currentLocale = locale;
+
+			this.numberFormatter = NumberFormat.getNumberInstance(locale);
+			this.currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+			this.percentageFormatter = NumberFormat.getPercentInstance(locale);
+
 			return true;
 		}
 		return false;
@@ -84,6 +91,10 @@ public final class DigitFormatter implements Localisable
 			this.decimals = 0;
 		else
 			this.decimals = decimals;
+
+		this.numberFormatter.setMaximumFractionDigits(decimals);
+		this.currencyFormatter.setMaximumFractionDigits(decimals);
+		this.percentageFormatter.setMaximumFractionDigits(decimals);
 	}
 
 	public int getDecimals()
